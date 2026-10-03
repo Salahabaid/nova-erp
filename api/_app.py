@@ -1,11 +1,11 @@
-"""Entrée FastAPI officielle pour Vercel (fichier racine, pas /api)."""
+"""Charge l'app FastAPI pour les fonctions Vercel dans /api."""
 from __future__ import annotations
 
 import sys
 import traceback
 from pathlib import Path
 
-_BACKEND = Path(__file__).resolve().parent / "backend"
+_BACKEND = Path(__file__).resolve().parents[1] / "backend"
 if str(_BACKEND) not in sys.path:
     sys.path.insert(0, str(_BACKEND))
 
