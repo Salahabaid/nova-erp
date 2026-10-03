@@ -3,3 +3,12 @@ name = "nova-erp"
 version = "1.0.0"
 requires-python = ">=3.12,<3.14"
 description = "Nova ERP"
+dependencies = [
+  "fastapi>=0.117.1",
+]
+
+[tool.vercel]
+entrypoint = "index:app"
+
+[tool.vercel.scripts]
+build = "npm ci --prefix frontend && npm run build --prefix frontend"

@@ -1,24 +1,9 @@
 {
-  "buildCommand": "npm ci --prefix frontend && npm run build --prefix frontend",
-  "outputDirectory": "frontend/dist",
-  "build": {
-    "env": {
-      "PYTHON_VERSION": "3.12",
-      "UV_PYTHON": "3.12"
-    }
-  },
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "functions": {
-    "api/index.py": {
+    "index.py": {
       "maxDuration": 60,
-      "includeFiles": "backend/**"
+      "excludeFiles": "{frontend/node_modules/**,frontend/src/**,.git/**,**/*.md,backend/.venv/**}"
     }
-  },
-  "rewrites": [
-    { "source": "/health", "destination": "/api/index" },
-    { "source": "/docs", "destination": "/api/index" },
-    { "source": "/redoc", "destination": "/api/index" },
-    { "source": "/openapi.json", "destination": "/api/index" },
-    { "source": "/api/:path*", "destination": "/api/index" },
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
-  ]
+  }
 }

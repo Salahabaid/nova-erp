@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -29,7 +31,15 @@ app.add_exception_handler(Exception, unhandled_error_handler)
 
 
 @app.get("/health")
-@app.get("/api")
-@app.get("/api/index")
 def health():
     return {"status": "ok", "service": settings.app_name, "env": settings.app_env}
+
+
+_frontend_dist = Path(__file__).resolve().parents[2] / "frontend" / "dist"
+if _frontend_dist.is_dir():
+    if hasattr(app, "frontend"):
+        app.frontend("/", directory=str(_frontend_dist))
+    else:
+        from fastapi.staticfiles import StaticFiles
+
+        app.mount("/", StaticFiles(directory=str(_frontend_dist), html=True), name="ui")
