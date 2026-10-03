@@ -1,0 +1,9 @@
+{
+  "buildCommand": "npm ci --prefix frontend && npm run build --prefix frontend",
+  "outputDirectory": "frontend/dist",
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "https://novaerp-api.onrender.com/api/:path*" },
+    { "source": "/health", "destination": "https://novaerp-api.onrender.com/health" },
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
+  ]
+}

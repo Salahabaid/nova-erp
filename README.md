@@ -114,9 +114,10 @@ Le backend refuse toute action non permise (403). L’UI masque les menus.
 
 ## Déploiement
 
-1. Frontend : `npm run build` → héberger `frontend/dist` (Vercel, Netlify, S3+CloudFront).
-2. Backend : Uvicorn / Gunicorn derrière HTTPS, `APP_ENV=production`, CORS = domaine réel.
-3. Supabase : projet dédié, RLS déjà dans la migration, clés uniquement en secrets serveur.
+Guide complet : [docs/DEPLOY.md](docs/DEPLOY.md)
+
+- API : Render (`render.yaml`) — [Blueprint](https://dashboard.render.com/blueprints)
+- Frontend : Vercel (racine du repo) ou site statique Render `novaerp-web`
 
 ## API — préfixes
 
