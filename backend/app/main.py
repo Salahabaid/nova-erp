@@ -3,6 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.v1.router import api_router
 from app.core.config import get_settings
+from app.core.errors import unhandled_error_handler
+
 settings = get_settings()
 
 app = FastAPI(
@@ -23,8 +25,11 @@ app.add_middleware(
 )
 
 app.include_router(api_router, prefix=settings.api_prefix)
+app.add_exception_handler(Exception, unhandled_error_handler)
 
 
 @app.get("/health")
+@app.get("/api")
+@app.get("/api/index")
 def health():
-    return {"status": "ok", "service": settings.app_name}
+    return {"status": "ok", "service": settings.app_name, "env": settings.app_env}

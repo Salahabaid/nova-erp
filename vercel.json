@@ -14,11 +14,11 @@
     }
   },
   "rewrites": [
-    { "source": "/health", "destination": "/api" },
-    { "source": "/docs", "destination": "/api" },
-    { "source": "/redoc", "destination": "/api" },
-    { "source": "/openapi.json", "destination": "/api" },
-    { "source": "/api/:path*", "destination": "/api" },
+    { "source": "/health", "destination": "/api/index" },
+    { "source": "/docs", "destination": "/api/index" },
+    { "source": "/redoc", "destination": "/api/index" },
+    { "source": "/openapi.json", "destination": "/api/index" },
+    { "source": "/api/:path*", "destination": "/api/index" },
     { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
 }

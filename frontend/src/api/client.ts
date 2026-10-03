@@ -78,7 +78,12 @@ async function request<T>(path: string, init: RequestInit = {}, retried = false)
     let message = "Une erreur est survenue.";
     if (contentType.includes("application/json")) {
       const body = await res.json();
-      message = body?.detail?.message || body?.message || message;
+      const detail = body?.detail;
+      message =
+        (typeof detail === "string" ? detail : detail?.message) || body?.message || message;
+    } else {
+      const text = (await res.text()).trim();
+      if (text) message = text.slice(0, 280);
     }
     throw new ApiError(res.status, message);
   }
