@@ -4,16 +4,14 @@ import re
 from datetime import date, datetime
 from decimal import Decimal
 from functools import lru_cache
-from typing import Any
+from typing import TYPE_CHECKING, Any
 from uuid import UUID
-
-import psycopg
-from psycopg.rows import dict_row
-from psycopg.types.json import Jsonb
-from supabase import Client, create_client
 
 from app.core.config import get_settings
 from app.core.errors import BadRequest, NotFound
+
+if TYPE_CHECKING:
+    from supabase import Client
 
 _IDENT = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
 
@@ -79,6 +77,8 @@ def _jsonable(value: Any) -> Any:
 
 def _adapt(value: Any) -> Any:
     if isinstance(value, (dict, list)):
+        from psycopg.types.json import Jsonb
+
         return Jsonb(value)
     return value
 
@@ -88,6 +88,9 @@ def _row(data: dict) -> dict:
 
 
 def connect_pg():
+    import psycopg
+    from psycopg.rows import dict_row
+
     settings = get_settings()
     if not settings.database_url:
         raise BadRequest("DATABASE_URL manquant.")
@@ -384,7 +387,9 @@ class HybridClient:
 
 
 @lru_cache
-def get_auth_client() -> Client:
+def get_auth_client():
+    from supabase import create_client
+
     settings = get_settings()
     return create_client(settings.supabase_url, settings.supabase_anon_key)
 

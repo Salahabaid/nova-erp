@@ -5,7 +5,26 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "nova-erp-api"
 version = "1.0.0"
-requires-python = ">=3.12"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+    "fastapi==0.142.2",
+    "uvicorn==0.34.0",
+    "pydantic==2.13.5",
+    "pydantic-settings==2.11.0",
+    "python-dotenv==1.0.1",
+    "supabase==2.11.0",
+    "realtime==2.5.3",
+    "httpx==0.28.1",
+    "psycopg[binary]==3.3.6",
+    "PyJWT==2.10.1",
+    "email-validator==2.2.0",
+    "python-multipart==0.0.20",
+    "reportlab==4.4.3",
+    "openpyxl==3.1.5",
+]
+
+[tool.vercel]
+entrypoint = "main:app"
 
 [tool.setuptools.packages.find]
 where = ["."]
