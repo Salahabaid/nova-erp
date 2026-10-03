@@ -14,9 +14,9 @@ class Settings(BaseSettings):
     api_prefix: str = "/api/v1"
     cors_origins: str = "http://localhost:5173,http://127.0.0.1:5173"
 
-    supabase_url: str
-    supabase_anon_key: str
-    supabase_service_role_key: str
+    supabase_url: str = ""
+    supabase_anon_key: str = ""
+    supabase_service_role_key: str = ""
     supabase_jwt_secret: str = "unset"
     database_url: str = ""
     storage_bucket: str = "erp-files"

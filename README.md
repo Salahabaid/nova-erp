@@ -116,8 +116,8 @@ Le backend refuse toute action non permise (403). L’UI masque les menus.
 
 Guide complet : [docs/DEPLOY.md](docs/DEPLOY.md)
 
-- API : Render (`render.yaml`) — [Blueprint](https://dashboard.render.com/blueprints)
-- Frontend : Vercel (racine du repo) ou site statique Render `novaerp-web`
+- **Vercel** (recommandé) : un projet, racine du repo — frontend + API
+- Render : Blueprint optionnel, carte bancaire exigée par Render
 
 ## API — préfixes
 

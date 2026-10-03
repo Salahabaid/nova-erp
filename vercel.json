@@ -1,9 +1,18 @@
 {
   "buildCommand": "npm ci --prefix frontend && npm run build --prefix frontend",
   "outputDirectory": "frontend/dist",
+  "functions": {
+    "api/index.py": {
+      "maxDuration": 60,
+      "includeFiles": "backend/**"
+    }
+  },
   "rewrites": [
-    { "source": "/api/:path*", "destination": "https://novaerp-api.onrender.com/api/:path*" },
-    { "source": "/health", "destination": "https://novaerp-api.onrender.com/health" },
+    { "source": "/health", "destination": "/api" },
+    { "source": "/docs", "destination": "/api" },
+    { "source": "/redoc", "destination": "/api" },
+    { "source": "/openapi.json", "destination": "/api" },
+    { "source": "/api/:path*", "destination": "/api" },
     { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
 }

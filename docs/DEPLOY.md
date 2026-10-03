@@ -1,48 +1,40 @@
 # Déploiement Nova ERP
 
-Stack retenue : **API sur Render**, **frontend sur Vercel** (ou aussi sur Render).
+**Recommandé : tout sur Vercel** (frontend + API FastAPI).  
+La base reste **Supabase**. Aucun secret dans le frontend.
 
-La base reste **Supabase**. Ne jamais y mettre les secrets dans le frontend.
+Render demande une carte bancaire (vérification $1, non débité) même pour le plan Free. Ce n’est pas contournable. Si vous ne voulez pas l’ajouter, ignorez Render.
 
-## 1. API — Render
+## 1. Vercel — un seul projet
 
-1. Ouvrez [https://dashboard.render.com/blueprints](https://dashboard.render.com/blueprints)
-2. Connectez le repo `Salahabaid/nova-erp` et appliquez `render.yaml`
-3. Dans le service `novaerp-api`, renseignez les secrets (mêmes valeurs que `backend/.env` local) :
-   - `SUPABASE_URL`
-   - `SUPABASE_ANON_KEY`
-   - `SUPABASE_SERVICE_ROLE_KEY`
-   - `SUPABASE_JWT_SECRET`
-   - `DATABASE_URL` (pooler IPv4, `sslmode=require`)
-4. Health check : `https://novaerp-api.onrender.com/health`
+1. Ouvrez [https://vercel.com/new](https://vercel.com/new) et importez `Salahabaid/nova-erp`.
+2. Root Directory : **racine du repo** (ne pas choisir `frontend/`).
+3. **Settings → Environment Variables** (Production + Preview), mêmes valeurs que `backend/.env` :
 
-Le plan Free s’endort après inactivité : le premier appel peut prendre 30–60 s.
+   | Nom | Obligatoire |
+   |-----|-------------|
+   | `SUPABASE_URL` | oui |
+   | `SUPABASE_ANON_KEY` | oui |
+   | `SUPABASE_SERVICE_ROLE_KEY` | oui |
+   | `SUPABASE_JWT_SECRET` | oui |
+   | `DATABASE_URL` | oui (pooler IPv4, `sslmode=require`) |
+   | `APP_ENV` | `production` |
+   | `CORS_ORIGINS` | `http://localhost:5173` |
 
-## 2. Frontend — Vercel (recommandé)
+4. Deploy.
+5. Testez `https://VOTRE-PROJET.vercel.app/health` puis la page de login.
 
-1. [Importer le repo sur Vercel](https://vercel.com/new)
-2. Root Directory : laisser la racine (le `vercel.json` à la racine build `frontend/`)
-3. Variables : aucune obligatoire (`VITE_API_URL=/api/v1` via `.env.production`)
-4. Les appels `/api/*` sont proxifiés vers `https://novaerp-api.onrender.com`
+Le frontend appelle `/api/v1` (même domaine). Pas de proxy Render.
 
-## 2 bis. Frontend — Render
+## 2. Render (optionnel)
 
-Le Blueprint crée aussi `novaerp-web` (`https://novaerp-web.onrender.com`) qui appelle l’API en direct.
+Uniquement si vous acceptez d’ajouter **votre** carte sur le formulaire Render (identité, autorisation $1). Ne communiquez jamais un numéro de carte ici.
 
-## 3. Après le premier déploiement
-
-Dans `novaerp-api`, ajoutez l’URL Vercel à `CORS_ORIGINS` :
-
-```
-http://localhost:5173,https://novaerp-web.onrender.com,https://VOTRE-PROJET.vercel.app
-```
-
-Les origines `*.vercel.app` et `*.onrender.com` sont déjà acceptées par regex.
+Ensuite : [Blueprints](https://dashboard.render.com/blueprints) → repo `Salahabaid/nova-erp` → secrets sur `novaerp-api`.
 
 ## Checklist
 
-- [ ] HTTPS partout
-- [ ] Secrets uniquement sur Render (API)
+- [ ] Variables d’environnement Vercel renseignées
 - [ ] `GET /health` = 200
 - [ ] Login Super Admin
-- [ ] Confirmation email Auth : à réactiver en production si besoin
+- [ ] Confirmation email Auth : à réactiver plus tard si besoin
