@@ -5,9 +5,6 @@
   "functions": {
     "api/index.py": {
       "maxDuration": 60
-    },
-    "api/[...path].py": {
-      "maxDuration": 60
     }
   },
   "rewrites": [
@@ -15,6 +12,7 @@
     { "source": "/docs", "destination": "/api" },
     { "source": "/redoc", "destination": "/api" },
     { "source": "/openapi.json", "destination": "/api" },
+    { "source": "/api/v1/:path*", "destination": "/api" },
     { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
 }
