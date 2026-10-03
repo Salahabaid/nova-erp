@@ -20,6 +20,7 @@ Render demande une carte bancaire (vérification $1, non débité) même pour le
    | `DATABASE_URL` | oui (pooler IPv4, `sslmode=require`) |
    | `APP_ENV` | `production` |
    | `CORS_ORIGINS` | `http://localhost:5173` |
+   | `PYTHON_VERSION` | `3.12` |
 
 4. Deploy.
 5. Testez `https://VOTRE-PROJET.vercel.app/health` puis la page de login.
